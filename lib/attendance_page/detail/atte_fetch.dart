@@ -12,25 +12,11 @@ Future<AttadenceData> attendanceFetch( String user_id , String from, String to )
     Uri.parse('http://collage.lucidetech.com/api/student/attendence_details'),
     body: {"user_id": user_id, "from":from, "to": to}
   );
-print(from);
-print(to);
-print(user_id);
-print(response.statusCode);
 
   if (response.statusCode == 200) {
-    print(response.statusCode);
     final responseData = jsonDecode(response.body);
-     print(responseData);
- print(response.body.toString()+"       ggggggggggggggg");
     final ress = AttadenceData.fromJson(responseData);
-print(ress.attadenceData.length.toString()+'haaaa........................');
-   // final data = ClassDatum.fromJson(jsonDecode(response.body));
-    // print(ClassDatum.fromJson(jsonDecode(response.body))
-    //         .className[0]
-    //         .length
-    // .toString() +
-    //     '        lll----lllllllllllll0');
-
+    print(response.body.toString()+'........................');
     return ress;
   } else {
     throw Exception('Failed to load data');

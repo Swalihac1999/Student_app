@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:student_app/login_page.dart/login_page.dart';
 
 import '../attendance_page/pages/attendance_page.dart';
 import '../awards/awards_pages.dart';
@@ -19,7 +21,32 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
-    bool _isShown = true;
+  String? userid;
+  Future<String?> getFirmId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userid = await prefs.getString('user_name').toString();
+    print(userid);
+    return userid;
+  }
+
+  String? useridremove;
+  Future<String?> getFirmromveid() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? useridremove = await prefs.remove('user_id').toString();
+
+    return useridremove;
+  }
+
+  bool _isShown = true;
+  @override
+  void initState() {
+    super.initState();
+    getFirmId().then((value) {
+      setState(() {
+        userid = value!;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +79,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
             height: height * 0.04,
           ),
           Container(
-            height: height * 3/2.7,
+            height: height * 3 / 2.7,
             width: width * 0.33,
             color: const Color.fromARGB(255, 46, 58, 80),
             child: SingleChildScrollView(
@@ -62,7 +89,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   SizedBox(
                     height: height * 0.02,
                   ),
-                    ListTile(
+                  ListTile(
                     leading: const Icon(
                       Icons.home,
                       color: Colors.white,
@@ -70,7 +97,8 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     ),
                     title: Text(
                       'Home ',
-                      style: GoogleFonts.abel(color: Colors.white, fontSize: 15),
+                      style:
+                          GoogleFonts.abel(color: Colors.white, fontSize: 15),
                     ),
                     onTap: () {
                       Navigator.push(
@@ -95,7 +123,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Attendance_page(),
+                            builder: (context) => AttendancePage(),
                           ));
                     },
                   ),
@@ -152,7 +180,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Class_Timetable(),
+                            builder: (context) => ClassTimetable(),
                           ));
                     },
                   ),
@@ -273,74 +301,75 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     onTap: () {},
                   ),
                   ListTile(
-                  leading: const Icon(
-                    Icons.logout_rounded,
-                    color: Colors.white,
-                    size: 23,
-                  ),
-                  title: Text(
-                    'Logout ',
-                    style: GoogleFonts.abel(color: Colors.white, fontSize: 15),
-                  ),
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext ctx) {
-                          return AlertDialog(
-                            title: Text(
-                              'Delete',
-                              style: GoogleFonts.abel(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            content: Text(
-                              'Are you sure ?',
-                              style: GoogleFonts.abel(
-                                  color: Colors.black,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w300),
-                            ),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _isShown = false;
-                                    });
-                                    // deleteTask(
-                                    //     snapshot
-                                    //         .data![
-                                    //             index]
-                                    //         .id);
+                    leading: const Icon(
+                      Icons.logout_rounded,
+                      color: Colors.white,
+                      size: 23,
+                    ),
+                    title: Text(
+                      'Logout ',
+                      style:
+                          GoogleFonts.abel(color: Colors.white, fontSize: 15),
+                    ),
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext ctx) {
+                            return AlertDialog(
+                              title: Text(
+                                'Delete',
+                                style: GoogleFonts.abel(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              content: Text(
+                                'Are you sure ?',
+                                style: GoogleFonts.abel(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                              actions: [
+                                TextButton(
+                                    onPressed: () {
+                                   
+                                      getFirmromveid();
 
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    'Yes',
-                                    style: GoogleFonts.abel(
-                                        color: Colors.blue,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    'No',
-                                    style: GoogleFonts.abel(
-                                        color: Colors.blue,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  ))
-                            ],
-                          );
-                        }).then((value) {
-                      setState(() {});
-                      Navigator.pop(context);
-                    });
-                  },
-                ),
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Login_page(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    },
+                                    child: Text(
+                                      'Yes',
+                                      style: GoogleFonts.abel(
+                                          color: Colors.blue,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'No',
+                                      style: GoogleFonts.abel(
+                                          color: Colors.blue,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ))
+                              ],
+                            );
+                          }).then((value) {
+                        setState(() {});
+                        Navigator.pop(context);
+                      });
+                    },
+                  ),
                 ],
               ),
             ),

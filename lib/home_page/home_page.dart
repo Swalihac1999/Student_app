@@ -100,7 +100,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Attendance_page()),
+                              builder: (context) => AttendancePage()),
                         );
                       },
                       child: Stack(children: [
@@ -201,7 +201,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Class_Timetable()),
+                              builder: (context) => ClassTimetable()),
                         );
                       },
                       child: Stack(children: [
@@ -254,7 +254,7 @@ class _HomeState extends State<Home> {
                             radius: 37,
                             backgroundColor: Color.fromARGB(255, 46, 58, 80),
                             child: Icon(
-                              Icons.edit_calendar_rounded,
+                              Icons.window_sharp,
                               size: 50,
                             )),
                       ),
@@ -274,7 +274,7 @@ class _HomeState extends State<Home> {
                       height: width * 0.02,
                     ),
                     Text(
-                      'Class Time Table ',
+                      'Circular ',
                       style: GoogleFonts.abel(color: Colors.white),
                     ),
                   ],

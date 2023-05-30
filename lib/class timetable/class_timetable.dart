@@ -9,25 +9,36 @@ import 'package:student_app/profile_page/profiledetails/model.dart';
 import '../profile_page/profiledetails/fetch.dart';
 import 'datail/fech.dart';
 
-class Class_Timetable extends StatefulWidget {
-  Class_Timetable({super.key});
+class ClassTimetable extends StatefulWidget {
+  ClassTimetable({super.key});
 
   @override
-  State<Class_Timetable> createState() => _Class_TimetableState();
+  State<ClassTimetable> createState() => _ClassTimetableState();
 }
-
 
 String? studentclass;
 
 String? division;
 
 String? day;
+// Future<String?> getFirmId() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   String? userid = await prefs.getString('user_id').toString();
 
-class _Class_TimetableState extends State<Class_Timetable> {
-    List<StudentDetailsDatum> list_class = [];
+//   print(userid);
+//   return userid;
+// }
 
-      // StudentDetailsDatum classDatum = StudentDetailsDatum(studentClass: "1",studentDiv:"1" );
+class _ClassTimetableState extends State<ClassTimetable> {
+  List<StudentDetailsDatum> list_class = [];
+  bool _obsecuretext = true;
+  void _toggle() {
+    setState(() {
+      _obsecuretext = !_obsecuretext;
+    });
+  }
 
+  // StudentDetailsDatum classDatum = StudentDetailsDatum(studentClass: "1",studentDiv:"1" );
 
   TextEditingController expandController = TextEditingController();
 
@@ -38,26 +49,20 @@ class _Class_TimetableState extends State<Class_Timetable> {
 //         studentclass = value!;
 //       });
 //     });
-    //  super.initState();
-    // getFirmdiv().then((value) {
-    //   setState(() {
-    //     division = value!;
-    //   });
-    // });
+  //  super.initState();
+  // getFirmdiv().then((value) {
+  //   setState(() {
+  //     division = value!;
+  //   });
+  // });
 
-    //   super.initState();
-    // getFirmday().then((value) {
-    //   setState(() {
-    //     day = value!;
-    //   });
-    // });
+  //   super.initState();
+  // getFirmday().then((value) {
+  //   setState(() {
+  //     day = value!;
+  //   });
+  // });
   // }
-
-
-
-
-
-
 
   void showToast() {
     setState(() {
@@ -67,153 +72,278 @@ class _Class_TimetableState extends State<Class_Timetable> {
 
   bool _isVisible = false;
 
+  void showToastExam() {
+    setState(() {
+      _isVisible1 = !_isVisible1;
+    });
+  }
+
+  bool _isVisible1 = false;
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 227, 226, 226),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 46, 58, 80),
-        title: Text('Class Timetable'),
-      ),
-      
-      body: 
-//       FutureBuilder<Examdata>(
-        
-//           future: fetchdataClass(
-//               studentclass.toString(), division.toString(), day.toString()),
-//           builder: (BuildContext context, AsyncSnapshot<Examdata> snapshot) {
-//             if (snapshot.hasData) {
-//               final data = snapshot.data!.examdata;
-// print(studentclass.toString());
-//               return ListView.builder(
-//                   itemCount: data.length,
-//                   itemBuilder: (BuildContext context, int index) {
-//                     for (TimetableDetailsDatum datum
-//                         in data[index].timetableDetailsData) {
-//                           print(datum.startTime);
-                      // return 
-                      Column(
-                        children: <Widget>[
-                         
-                          ExpansionTile(
-                            title: TextButton(
-                              onPressed: null,
-                              child: Text(
-                                'Monday'
-                                // datum.subjectName
-                                ),
-                            ),
-                            children: <Widget>[
-                              Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(24),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          CircleAvatar(
-                                            radius: 27,
-                                            backgroundColor: Colors.amber,
-                                            child: Text(
-                                              'lll',
-                                              // datum.subjectName,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: width * 0.070,
-                                          ),
-                                          CircleAvatar(
-                                            radius: 27,
-                                            backgroundColor: Colors.amber,
-                                            child: Text(
-                                              'sce',
+        backgroundColor: Color.fromARGB(255, 227, 226, 226),
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 46, 58, 80),
+          title: Text('Class Timetable'),
+        ),
+        body: Column(
+          children: [
+            //  ExpansionTile(
+            //                       title: TextButton(
+            //                         onPressed: null,
+            //                         child: Text('monday'),
+            //                       ),),
 
-                                              // datum.subjectName,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: width * 0.070,
-                                          ),
-                                          CircleAvatar(
-                                            radius: 27,
-                                            backgroundColor: Colors.amber,
-                                            child: Text(
-                                              'ooo',
-                                              // datum.subjectName,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: width * 0.070,
-                                          ),
-                                          CircleAvatar(
-                                            radius: 27,
-                                            backgroundColor: Colors.amber,
-                                            child: Text(
-                                              'qqq',
+            FutureBuilder<Examdata>(
+                future: fetchdataClass('1', '1', 'monday'),
+                builder:
+                    (BuildContext context, AsyncSnapshot<Examdata> snapshot) {
+                  if (snapshot.hasData) {
+                    final data =
+                        snapshot.data!.examdata[0].timetableDetailsData;
+                    print(data.toString() + 'hnhnhnhnhnhnnhnhnhn');
+                    print(studentclass.toString());
+                    return Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    _toggle();
 
-                                              // datum.subjectName,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      CircleAvatar(
-                                        radius: 27,
-                                        backgroundColor: Colors.amber,
-                                        child: Text(
-                                          'uuu',
-                                        //  datum.subjectName,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
+                                    setState(() {
+                                      _isVisible1 = !_isVisible1;
+                                    });
+                                  },
+                                  icon: Icon(_obsecuretext
+                                      ? Icons.keyboard_arrow_down_rounded
+                                      : Icons.keyboard_arrow_up_rounded)),
+                              TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isVisible1 = !_isVisible1;
+                                    });
+                                    _toggle();
+                                  },
+                                  child: Text(
+                                    'Monday',
+                                    style: TextStyle(color: Colors.black),
                                   )),
                             ],
                           ),
+                          Expanded(
+                            child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: data.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  print(data[index].startTime + '  ksjdd');
+                                  // for (TimetableDetailsDatum datum
+                                  //     in data[index].timetableDetailsData) {
+                                  // print(
+                                  //   data.length,
+                                  // );
+                                  return Column(
+                                    children: [
+                                      Visibility(
+                                          visible: _isVisible1,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: width * 0.05),
+                                            child: Column(
+                                              children: [
+                                                Divider(
+                                                  thickness: 6,
+                                                  color: Colors.black,
+                                                  height: 4,
+                                                ),
+                                                CircleAvatar(
+                                                    backgroundColor: Colors.red,
+                                                    radius: 31,
+                                                    child: Text(data[index]
+                                                        .subjectName)),
+                                                Divider(
+                                                  thickness: 6,
+                                                  color: Colors.black,
+                                                  height: 4,
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                      // ExpansionTile(
+
+                                      //   title: TextButton(
+                                      //     onPressed: null,
+                                      //     child: Padding(
+                                      //       padding:  EdgeInsets.only(right: 210),
+                                      //       child: Text('monday'),
+                                      //     ),
+
+                                      //   ),
+
+                                      //   ),
+                                      // Text(data[index].startTime),
+                                      // ExpansionTile(
+                                      //   title: TextButton(
+                                      //     onPressed: null,
+                                      //     child: Padding(
+                                      //       padding:  EdgeInsets.only(right: 210),
+                                      //       child: Text('monday'),
+                                      //     ),
+                                      //   ),
+                                      //   children: <Widget>[
+                                      //     Container(
+                                      //         alignment: Alignment.center,
+                                      //         padding: const EdgeInsets.all(24),
+                                      //         child: Column(
+                                      //           children: [
+                                      //             Row(
+                                      //               children: [
+                                      //                 CircleAvatar(
+                                      //                   radius: 30,
+                                      //                   backgroundColor: Colors.redAccent,
+                                      //                   child: Text(
+                                      //                    data[index].subjectName,
+                                      //                     // datum.subjectName,
+                                      //                     style: TextStyle(
+                                      //                         fontWeight: FontWeight.bold,
+                                      //                         color: Colors.white),
+                                      //                   ),
+                                      //                 ),
+                                      //                 SizedBox(
+                                      //                   width: width * 0.070,
+                                      //                 ),
+                                      //                 CircleAvatar(
+                                      //                   radius: 27,
+                                      //                   backgroundColor: Colors.amber,
+                                      //                   child: Text(
+                                      //                     'sce',
+
+                                      //                     // datum.subjectName,
+                                      //                     style: TextStyle(
+                                      //                         fontWeight: FontWeight.bold,
+                                      //                         color: Colors.white),
+                                      //                   ),
+                                      //                 ),
+                                      //                 SizedBox(
+                                      //                   width: width * 0.070,
+                                      //                 ),
+                                      //                 CircleAvatar(
+                                      //                   radius: 27,
+                                      //                   backgroundColor: Colors.amber,
+                                      //                   child: Text(
+                                      //                     'ooo',
+                                      //                     // datum.subjectName,
+                                      //                     style: TextStyle(
+                                      //                         fontWeight: FontWeight.bold,
+                                      //                         color: Colors.white),
+                                      //                   ),
+                                      //                 ),
+                                      //                 SizedBox(
+                                      //                   width: width * 0.070,
+                                      //                 ),
+                                      //                 CircleAvatar(
+                                      //                   radius: 27,
+                                      //                   backgroundColor: Colors.amber,
+                                      //                   child: Text(
+                                      //                     'qqq',
+
+                                      //                     // datum.subjectName,
+                                      //                     style: TextStyle(
+                                      //                         fontWeight: FontWeight.bold,
+                                      //                         color: Colors.white),
+                                      //                   ),
+                                      //                 )
+                                      //               ],
+                                      //             ),
+                                      //             SizedBox(height: height * 0.020 ,),
+                                      //             Row(
+                                      //               children: [
+                                      //                 CircleAvatar(
+                                      //                   radius: 30,
+                                      //                   backgroundColor: Colors.redAccent,
+                                      //                   child: Text(
+                                      //                    data[index].subjectName,
+                                      //                     // datum.subjectName,
+                                      //                     style: TextStyle(
+                                      //                         fontWeight: FontWeight.bold,
+                                      //                         color: Colors.white),
+                                      //                   ),
+                                      //                 ),
+                                      //                 SizedBox(
+                                      //                   width: width * 0.070,
+                                      //                 ),
+                                      //                 CircleAvatar(
+                                      //                   radius: 27,
+                                      //                   backgroundColor: Colors.amber,
+                                      //                   child: Text(
+                                      //                     'sce',
+
+                                      //                     // datum.subjectName,
+                                      //                     style: TextStyle(
+                                      //                         fontWeight: FontWeight.bold,
+                                      //                         color: Colors.white),
+                                      //                   ),
+                                      //                 ),
+                                      //                 SizedBox(
+                                      //                   width: width * 0.070,
+                                      //                 ),
+                                      //                 CircleAvatar(
+                                      //                   radius: 27,
+                                      //                   backgroundColor: Colors.amber,
+                                      //                   child: Text(
+                                      //                     'ooo',
+                                      //                     // datum.subjectName,
+                                      //                     style: TextStyle(
+                                      //                         fontWeight: FontWeight.bold,
+                                      //                         color: Colors.white),
+                                      //                   ),
+                                      //                 ),
+                                      //                 SizedBox(
+                                      //                   width: width * 0.070,
+                                      //                 ),
+                                      //                 CircleAvatar(
+                                      //                   radius: 27,
+                                      //                   backgroundColor: Colors.amber,
+                                      //                   child: Text(
+                                      //                     'qqq',
+
+                                      //                     // datum.subjectName,
+                                      //                     style: TextStyle(
+                                      //                         fontWeight: FontWeight.bold,
+                                      //                         color: Colors.white),
+                                      //                   ),
+                                      //                 )
+                                      //               ],
+                                      //             ),
+                                      //           ],
+                                      //         )),
+                                      //   ],
+                                      // ),
+                                    ],
+                                  );
+                                }
+                                //}
+                                ),
+                          ),
                         ],
-                      ));
-                    }
-          //         });
-          //   } else if (snapshot.hasError) {
-          //     return Center(
-          //         child: Text(
-          //       "Not a valid date ",
-          //       style: GoogleFonts.abel(color: Colors.white, fontSize: 16),
-          //     ));
-          //   }
-          //   return const Center(child: CircularProgressIndicator());
-          // }),
-  //   Future<bool> getData() async {
-  //   final res = await fetchProfiledata();
-  //   print(res.toString() + "         lkjsssss");
-  //   print(res.profileData[0].studentDetailsData);
-  //   if (res.profileData[0].studentDetailsData.isNotEmpty) {
-  //     setState(() {
-  //       // print(StudentDetailsDatum.className + "       llkddd");
-  //       list_class.addAll(res.profileData[0].studentDetailsData);
-  //       classDatum = res.numberData[0].classData[0];
-  //     });
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-  
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                        child: Text(
+                      "Not a valid date ",
+                      style: GoogleFonts.abel(
+                          color: Color.fromARGB(255, 24, 23, 23), fontSize: 16),
+                    ));
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                }),
+          ],
+        ));
+  }
 }
-
-
